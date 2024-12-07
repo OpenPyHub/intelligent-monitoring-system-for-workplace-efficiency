@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+    <head id="head">
+        <title>Hakkımızda - Çalışma Alanlarının Verimliliği için Akıllı İzleme Sistemi</title>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/img" href="{% static 'images/eye.png' %}">
+        <link rel="stylesheet" href="{% static 'css/about-us.css' %}" type="text/css">
+    </head>
+    <body id="body">
+        <header>
+            <div id="left-header">
+                <a href="{% url 'home' %}"><img id="logo" src="{% static 'images/eye.png' %}" width="60px" height="60px" title="" alt="logo"></a>
+            </div>
+            <div id="right-header">
+                {% if user.is_authenticated %}
+                <div id="user-logged" class="dropdown">
+                    <button class="dropbutton"><img src="{% static 'images/user.png' %}" width="30px"><span class="button-text">Merhaba, {{ user.username }}!</span></button>
+                    <div class="dropdown-content">
+                        {% if user.is_superuser %}
+                            <a href="">Ekle</a>
+                        {% endif %}
+                        <a href="">Şifre Değiştir</a>
+                        <form id="logout" action="{% url 'logout' %}" method="post">{% csrf_token %}
+                            <a href=""><button type="submit">Çıkış Yap</button></a>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <div id="user-not-logged" class="dropdown">
+                    <button class="dropbutton"><img src="{% static 'images/user.png' %}" width="30px"><span class="button-text">Giriş/Kayıt</span></button>
+                    <div class="dropdown-content">
+                    <a href="{% url 'login' %}">Giriş Yap</a>
+                    <a href="{% url 'signup' %}">Kayıt Ol</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </header>
+        <nav align="center">
+            <div class="menu">
+                <ul type="none">
+                    <li><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                    <li><a href="">...</a></li>
+                    <li><a href="">...</a></li>
+                    <li><a href="">...</a></li>
+                </ul>
+            </div>
+        </nav>
+        <article>
+            <div id="c-1" class="content">
+                <div id="content-1">
+                    <h1>HAKKIMIZDA</h1>
+                    <p>Bu sistem Python (Django, OpenCV), HTML ve CSS kullanılarak oluşturulmuştur.
+                    </p>
+                    <p>Bu oluşumu meydana getiren ekip:
+                        <ul type="none">
+                            <li><img id="pp" src="{% static 'images/user.png' %}" title="" alt="ysc" width="150px" height="150px">
+                                <span>Yavuz Selim Çoraklı</span>
+                                <a href="https://www.linkedin.com/in/yavuz-selim-corakli"><img src="{% static 'images/linkedin.png' %}" width="30px" title="" alt="linkedin"></a>
+                            </li>
+                            <li><img id="pp" src="{% static 'images/user.png' %}" title="" alt="mo" width="150px" height="150px">
+                                <span>Mustafa Oğur</span>
+                                <a href="https://www.linkedin.com/in/"><img src="{% static 'images/linkedin.png' %}" width="30px" title="" alt="linkedin"></a>
+                            </li>
+                        </ul>
+                    </p>  
+                </div>  
+            </div>
+        </article>
+        <footer>
+            <div id="top-footer">
+                <div id="top-left-footer">
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    ...
+                                </th>
+                                <th>
+                                    İçerik
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <ul id="footer-links-1" type="none">
+                                        <li><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                                        <li><a href="{% url 'about-us' %}">Hakkımızda</a></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul id="footer-links-2" type="none">
+                                        <li><a href="">...</a></li>
+                                        <li><a href="">...</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+                <div id="top-right-footer">
+                    <div id="logo">
+                        <img id="logo" src="{% static 'images/eye.png' %}" title="" alt="logo" width="150px" height="150px">
+                    </div>
+                </div>
+            </div>
+            <div id="bottom-footer">
+                © 2024, Kocaeli Üniversitesi, Yazılım Mühendisliği bölümünden Yavuz Selim Çoraklı ve Mustafa Oğur tarafından tasarlanmıştır.
+            </div>
+        </footer>
+    </body>
+</html>

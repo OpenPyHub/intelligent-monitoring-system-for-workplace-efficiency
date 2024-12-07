@@ -1,0 +1,112 @@
+*
+{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body
+{
+    background-image:url("../images/login.jpg");
+    background-repeat:none;
+    background-size:cover;
+    background-attachment:fixed;
+    height:200%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
+}
+
+
+
+/*article*/
+.system-login
+{
+    width:100%;
+    background:transparent;
+    border:2px solid steelblue;
+    backdrop-filter:blur(50px);
+    box-shadow:0 0 10px steelblue;
+    color:linen;
+    border-radius:10px;
+    padding:25px;
+    margin:5px;
+}
+
+.system-login div
+{
+    padding:5px;
+    margin:5px;
+}
+
+.system-login input
+{
+    width:100%;
+    height:100%;
+    background:transparent;
+    border:none;
+    outline:none;
+    border:2px solid steelblue;
+    border-radius:40px;
+    font-size:16px;
+    color:linen;
+    padding:10px;
+}
+
+.system-login span
+{
+    display:flex;
+    flex-direction:row;
+    justify-content:right;
+    color:darkturquoise;
+    padding:0px 0px 5px 0px;
+    margin:0px 0px 5px 0px;
+}
+
+.system-login a
+{
+    text-decoration:none;
+    color:black;
+    padding:0px 5px;
+}
+
+.system-login a:hover
+{
+    color:darkturquoise;
+}
+
+.system-login button
+{
+    width:100%;
+    height:45px;
+    background:linen;
+    border:none;
+    outline:none;
+    border-radius:40px;
+    box-shadow:0 0 10px steelblue;
+    cursor:pointer;
+    font-size:16px;
+    color:black;
+    font-weight:200;
+    padding:5px;
+    margin:2px 0px;
+}
+
+.system-login button:hover
+{
+    background-color:darkturquoise;
+}
+
+
+
+/* footer */
+#bottom-footer
+{
+    color:black;
+    text-align:center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size:small;
+    font-style:italic;
+}

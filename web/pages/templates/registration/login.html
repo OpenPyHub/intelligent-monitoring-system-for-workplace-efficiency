@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+    <head id="head">
+        <title>Giriş Yap - Çalışma Alanlarının Verimliliği için Akıllı İzleme Sistemi</title>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/img" href="{% static 'images/eye.png' %}">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css">
+    </head>
+    <body id="body">
+        <header>
+            <div>
+                <a href="{% url 'home' %}"><img id="logo" src="{% static 'images/eye.png' %}" width="180px" height="180px" title="" alt="logo"></a>
+            </div>
+        </header>
+        <article>
+            <div class="system-login">
+                <h1 align="center">Sisteme Giriş</h1>
+                <form id="login" action="{% url 'login' %}" method="post">{% csrf_token %}
+                    <div id="username">
+                        <label for="username" class="form-label">Kullanıcı adı:</label>
+                        <input name="username" type="text">
+                    </div>
+                    <div id="password">
+                        <label for="password" class="form-label">Şifre:</label>
+                        <input name="password" type="password">
+                    </div>
+                    <span>Kayıtlı değil misin?<a href="{% url 'signup' %}">Kayıt Ol</a></span>
+                    <button type="submit">Giriş Yap</button>
+                </form>
+            </div>
+        </article>
+        <footer align="center">
+            <div id="bottom-footer">
+                © 2024, Kocaeli Üniversitesi, Yazılım Mühendisliği bölümünden Yavuz Selim Çoraklı ve Mustafa Oğur tarafından tasarlanmıştır.
+            </div>
+        </footer>
+    </body>
+</html>
