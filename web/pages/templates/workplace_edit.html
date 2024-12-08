@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+    <head id="head">
+        <title>Çalışma Alanı Düzenle - Çalışma Alanlarının Verimliliği için Akıllı İzleme Sistemi</title>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/img" href="{% static 'images/eye.png' %}">
+        <link rel="stylesheet" href="{% static 'css/workplace_edit.css' %}" type="text/css">
+    </head>
+    <body id="body">
+        <h1>Çalışma Alanı Düzenle</h1>
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Güncelle">
+        </form>
+    </body>
+</html>
