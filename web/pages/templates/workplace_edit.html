@@ -11,10 +11,109 @@
         <link rel="stylesheet" href="{% static 'css/workplace_edit.css' %}" type="text/css">
     </head>
     <body id="body">
-        <h1>Çalışma Alanı Düzenle</h1>
-        <form action="" method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Güncelle">
-        </form>
+        <header>
+            <div id="left-header">
+                <a href="{% url 'home' %}"><img id="logo" src="{% static 'images/eye.png' %}" width="60px" height="60px" title="" alt="logo"></a>
+            </div>
+            <div id="right-header">
+                {% if user.is_authenticated %}
+                <div id="user-logged" class="dropdown">
+                    <button class="dropbutton"><img src="{% static 'images/user.png' %}" width="30px"><span class="button-text">Merhaba, {{ user.username }}!</span></button>
+                    <div class="dropdown-content">
+                        <a href="">Şifre Değiştir</a>
+                        <form id="logout" action="{% url 'logout' %}" method="post">{% csrf_token %}
+                            <a href=""><button type="submit">Çıkış Yap</button></a>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <div id="user-not-logged" class="dropdown">
+                    <button class="dropbutton"><img src="{% static 'images/user.png' %}" width="30px"><span class="button-text">Giriş/Kayıt</span></button>
+                    <div class="dropdown-content">
+                    <a href="{% url 'login' %}">Giriş Yap</a>
+                    <a href="{% url 'signup' %}">Kayıt Ol</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </header>
+        <nav>
+            <div class="menu">
+                <ul type="none">
+                    <li><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                    <li><a href="{% url 'about-us' %}">Hakkımızda</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'workplaces' %}">Çalışma Alanları</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        <article>
+            {% if user.is_authenticated %}
+                <div class="content">
+                    <h1>Çalışma Alanını Düzenle</h1>
+                    <video src="{{ workplace.media.url }}" alt="{{ workplace.name }}" controls></video>
+                    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+                        <table>
+                            {% for field in form %}
+                            <tr>
+                                <td><label for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+                                <td>{{ field }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        <input id="update" type="submit" value="Güncelle">
+                    </form>
+                </div>
+            {% else %}
+                <div class="content">
+                    <img src="{% static 'images/error.png' %}" title="" alt="error">
+                    <p>Erişim izniniz yok. Lütfen giriş yapınız.</p>
+                </div>
+            {% endif %}
+        </article>
+        <footer>
+            <div id="top-footer">
+                <div id="top-left-footer">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Çalışma Alanlarının Verimliliği için Akıllı İzleme Sistemi
+                                </th>
+                                <th>
+                                    İçerik
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <ul id="footer-links-1" type="none">
+                                        <li><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                                        <li><a href="{% url 'about-us' %}">Hakkımızda</a></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul id="footer-links-2" type="none">
+                                        <li><a href="{% url 'workplaces' %}">Çalışma Alanları</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+                <div id="top-right-footer">
+                    <div id="logo">
+                        <img id="logo" src="{% static 'images/eye.png' %}" title="" alt="logo" width="150px" height="150px">
+                    </div>
+                </div>
+            </div>
+            <div id="bottom-footer">
+                © 2024, Kocaeli Üniversitesi, Yazılım Mühendisliği bölümünden Yavuz Selim Çoraklı ve Mustafa Oğur tarafından tasarlanmıştır.
+            </div>
+        </footer>
     </body>
 </html>

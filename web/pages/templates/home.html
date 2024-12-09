@@ -20,9 +20,6 @@
                 <div id="user-logged" class="dropdown">
                     <button class="dropbutton"><img src="{% static 'images/user.png' %}" width="30px"><span class="button-text">Merhaba, {{ user.username }}!</span></button>
                     <div class="dropdown-content">
-                        {% if user.is_superuser %}
-                            <a href="">Ekle</a>
-                        {% endif %}
                         <a href="">Şifre Değiştir</a>
                         <form id="logout" action="{% url 'logout' %}" method="post">{% csrf_token %}
                             <a href=""><button type="submit">Çıkış Yap</button></a>
@@ -40,13 +37,13 @@
                 {% endif %}
             </div>
         </header>
-        <nav align="center">
+        <nav>
             <div class="menu">
                 <ul type="none">
-                    <li><a href="{% url 'home' %}">Ana Sayfa</a></li>
-                    <li><a href="">...</a></li>
-                    <li><a href="">...</a></li>
-                    <li><a href="">...</a></li>
+                    <li><a href="{% url 'about-us' %}">Hakkımızda</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'workplaces' %}">Çalışma Alanları</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
@@ -77,11 +74,11 @@
         <footer>
             <div id="top-footer">
                 <div id="top-left-footer">
-                    <table width="100%">
+                    <table>
                         <thead>
                             <tr>
                                 <th>
-                                    ...
+                                    Çalışma Alanlarının Verimliliği için Akıllı İzleme Sistemi
                                 </th>
                                 <th>
                                     İçerik
@@ -98,8 +95,7 @@
                                 </td>
                                 <td>
                                     <ul id="footer-links-2" type="none">
-                                        <li><a href="">...</a></li>
-                                        <li><a href="">...</a></li>
+                                        <li><a href="{% url 'workplaces' %}">Çalışma Alanları</a></li>
                                     </ul>
                                 </td>
                             </tr>
