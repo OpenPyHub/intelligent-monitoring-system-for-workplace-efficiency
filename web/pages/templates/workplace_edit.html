@@ -50,7 +50,7 @@
         </nav>
         <article>
             {% if user.is_authenticated %}
-                <div class="content">
+                <div id="c" class="content">
                     <h1>Çalışma Alanını Düzenle</h1>
                     <video src="{{ workplace.media.url }}" alt="{{ workplace.name }}" controls></video>
                     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
@@ -66,7 +66,7 @@
                     </form>
                 </div>
             {% else %}
-                <div class="content">
+                <div id="c" class="content">
                     <img src="{% static 'images/error.png' %}" title="" alt="error">
                     <p>Erişim izniniz yok. Lütfen giriş yapınız.</p>
                 </div>

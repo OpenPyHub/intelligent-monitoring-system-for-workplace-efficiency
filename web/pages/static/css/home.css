@@ -211,8 +211,6 @@ article
 
 .content
 {
-    min-height:900px;
-    min-width:600px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size:large;
     display:flex;
@@ -221,24 +219,16 @@ article
     align-items:center;
 }
 
-#c-1
+#c
 {
     background-image:url("../images/h1.jpg");
-    background-repeat:none;
+    background-repeat:no-repeat;
     background-size:cover;
+    height:100vh;
 }
 
-#c-2
+#c-1, #c-2
 {
-    background-image:url("../images/h2.jpg");
-    background-repeat:none;
-    background-size:cover;
-}
-
-#content-1, #content-2
-{
-    width:300px;
-    height:200px;
     max-width:100%;
     max-height:100%;
     text-align:center;
@@ -247,18 +237,9 @@ article
     backdrop-filter:blur(10px);
     box-shadow:0 0 10px linen;
     border-radius:10px;
+    color:linen;
     padding:10px;
     margin:10px;
-}
-
-#content-1
-{
-    color:linen;
-}
-
-#content-2
-{
-    color:black;
 }
 
 

@@ -205,15 +205,12 @@ nav
 /* article */
 article
 {
-    background-image:url("../images/about-us.jpg");
-    background-repeat:none;
-    background-size:cover;
+    display:flex;
+    flex-direction:column;    
 }
 
 .content
 {
-    min-height:800px;
-    min-width:400px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size:large;
     display:flex;
@@ -222,10 +219,16 @@ article
     align-items:center;
 }
 
-#content-1
+#c
 {
-    width:600px;
-    height:400px;
+    background-image:url("../images/about-us.jpg");
+    background-repeat:none;
+    background-size:cover;
+    height:100vh;
+}
+
+#c-1
+{
     max-width:100%;
     max-height:100%;
     text-align:center;
@@ -238,7 +241,7 @@ article
     margin:10px;
 }
 
-#content-1 ul
+#c-1 ul
 {
     display:flex;
     flex-direction:row;
@@ -249,13 +252,13 @@ article
     font-style:italic;
 }
 
-#content-1 li
+#c-1 li
 {
     display:flex;
     flex-direction:column;
 }
 
-#content-1 a:hover
+#c-1 a:hover
 {
     opacity:0.7;
 }

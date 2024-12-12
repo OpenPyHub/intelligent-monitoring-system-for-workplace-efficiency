@@ -50,7 +50,7 @@
         </nav>
         <article>
             {% if user.is_authenticated %}
-                <div class="content">
+                <div id="c" class="content">
                     <h1>Yeni Çalışma Alanı Ekle</h1>
                     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
                         <table>
@@ -65,7 +65,7 @@
                     </form>
                 </div>
             {% else %}
-                <div class="content">
+                <div id="c" class="content">
                     <img src="{% static 'images/error.png' %}" title="" alt="error">
                     <p>Erişim izniniz yok. Lütfen giriş yapınız.</p>
                 </div>

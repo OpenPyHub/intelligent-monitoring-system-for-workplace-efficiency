@@ -217,7 +217,7 @@ article
 .content
 {
     justify-items:center;
-    max-width:540px;
+    height:100vh;
     padding:2px;
     margin:2px auto;    
 }
