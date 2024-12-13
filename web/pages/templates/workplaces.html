@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+    <head id="head">
+        <title>Çalışma Alanları - Çalışma Alanlarının Verimliliği için Akıllı İzleme Sistemi</title>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/img" href="{% static 'images/eye.png' %}">
+        <link rel="stylesheet" href="{% static 'css/workplaces.css' %}" type="text/css">
+    </head>
+    <body id="body">
+        <header>
+            <div id="left-header">
+                <a href="{% url 'home' %}"><img id="logo" src="{% static 'images/eye.png' %}" width="60px" height="60px" title="" alt="logo"></a>
+            </div>
+            <div id="right-header">
+                {% if user.is_authenticated %}
+                <div id="user-logged" class="dropdown">
+                    <button class="dropbutton"><img src="{% static 'images/user.png' %}" width="30px"><span class="button-text">Merhaba, {{ user.username }}!</span></button>
+                    <div class="dropdown-content">
+                        <a href="">Şifre Değiştir</a>
+                        <form id="logout" action="{% url 'logout' %}" method="post">{% csrf_token %}
+                            <a href=""><button type="submit">Çıkış Yap</button></a>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <div id="user-not-logged" class="dropdown">
+                    <button class="dropbutton"><img src="{% static 'images/user.png' %}" width="30px"><span class="button-text">Giriş/Kayıt</span></button>
+                    <div class="dropdown-content">
+                    <a href="{% url 'login' %}">Giriş Yap</a>
+                    <a href="{% url 'signup' %}">Kayıt Ol</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </header>
+        <nav>
+            <div class="menu">
+                <ul type="none">
+                    <li><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                    <li><a href="{% url 'about-us' %}">Hakkımızda</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'workplace_new' %}">Çalışma Alanı Ekle</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        <article>
+            {% if user.is_authenticated %}
+                <div id="c" class="content">
+                    {% if user.is_superuser %}
+                        <h1>Tüm Kurum/Kuruluşlar için Çalışma Alanları</h1>
+                        {% for workplace in workplace_list %}
+                            {% if forloop.counter0|divisibleby:4 %}
+                                {% if not forloop.first %}
+                                    </div>
+                                {% endif %}
+                                    <div id="workplace-row">
+                            {% endif %}
+                            <div id="workplace-row">
+                                <div id="workplace">
+                                    {% if workplace.media %}
+                                        <video src="{{ workplace.media.url }}" alt="{{ workplace.name }}"></video>
+                                    {% endif %}
+                                    <div class="container">
+                                        <h2>{{ workplace.name }}</h2>
+                                        <h4>{{ workplace.affiliation }}</h4>
+                                        <a href="{% url 'workplace_detail' workplace.pk %}"><button>Kontrol Et</button></a>
+                                        <a href="{% url 'workplace_edit' workplace.pk %}"><button>Düzenle</button></a>
+                                        <a href="{% url 'workplace_delete' workplace.pk %}"><button>Sil</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if forloop.last %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <div id="c" class="content">
+                            <h1>{{ user.affiliation }} için Çalışma Alanları</h1>
+                            {% for workplace in workplace_list %}
+                                {% if workplace.affiliation|stringformat:'s' == user.affiliation|stringformat:'s' %}
+                                    {% if forloop.counter0|divisibleby:4 %}
+                                        {% if not forloop.first %}
+                                            </div>
+                                        {% endif %}
+                                            <div id="workplace-row">
+                                    {% endif %}
+                                    <div id="workplace-row">
+                                        <div id="workplace">
+                                            {% if workplace.media %}
+                                                <video src="{{ workplace.media.url }}" alt="{{ workplace.name }}"></video>
+                                            {% endif %}
+                                            <div class="container">
+                                                <h2>{{ workplace.name }}</h2>
+                                                <h4>{{ workplace.affiliation }}</h4>
+                                                <p>{{ workplace.body }}</p>
+                                                <a href="{% url 'workplace_detail' workplace.pk %}"><button>Kontrol Et</button></a>
+                                                <a href="{% url 'workplace_edit' workplace.pk %}"><button>Düzenle</button></a>
+                                                <a href="{% url 'workplace_delete' workplace.pk %}"><button>Sil</button></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if forloop.last %}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div id="c" class="content">
+                    <img src="{% static 'images/error.png' %}" title="" alt="error">
+                    <p>Erişim izniniz yok. Lütfen giriş yapınız.</p>
+                </div>
+            {% endif %}
+        </article>
+        <footer>
+            <div id="top-footer">
+                <div id="top-left-footer">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Çalışma Alanlarının Verimliliği için Akıllı İzleme Sistemi
+                                </th>
+                                <th>
+                                    İçerik
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <ul id="footer-links-1" type="none">
+                                        <li><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                                        <li><a href="{% url 'about-us' %}">Hakkımızda</a></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul id="footer-links-2" type="none">
+                                        <li><a href="{% url 'workplaces' %}">Çalışma Alanları</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+                <div id="top-right-footer">
+                    <div id="logo">
+                        <img id="logo" src="{% static 'images/eye.png' %}" title="" alt="logo" width="150px" height="150px">
+                    </div>
+                </div>
+            </div>
+            <div id="bottom-footer">
+                © 2024, Kocaeli Üniversitesi, Yazılım Mühendisliği bölümünden Yavuz Selim Çoraklı ve Mustafa Oğur tarafından tasarlanmıştır.
+            </div>
+        </footer>
+    </body>
+</html>

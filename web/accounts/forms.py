@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
+from pages.models import Affiliation
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(max_length=50, label='Kullanıcı adı',
@@ -11,6 +12,11 @@ class CustomUserCreationForm(UserCreationForm):
     password2 = forms.CharField(label='Şifre Tekrar:',
                                 help_text='Şifreyi doğrulayın.',
                                 widget=forms.PasswordInput)
+    affiliation = forms.ModelChoiceField(
+        queryset=Affiliation.objects.all(),
+        required=False,
+        label='Bağlı olduğu kurum/kuruluş',
+    )
 
     class Meta:
         model = CustomUser
@@ -19,5 +25,4 @@ class CustomUserCreationForm(UserCreationForm):
             'email': 'E-posta',
             'first_name': 'Ad',
             'last_name': 'Soyad',
-            'affiliation': 'Bağlı olduğu kurum/kuruluş',
         }

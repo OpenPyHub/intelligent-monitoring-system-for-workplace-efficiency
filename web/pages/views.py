@@ -25,6 +25,11 @@ class WorkplaceCreateView(CreateView): # class-based views
     template_name = 'workplace_new.html'
     form_class = WorkplaceForm
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
 class WorkplaceUpdateView(UpdateView): # class-based views
     model = Workplace
     template_name = 'workplace_edit.html'
