@@ -3,6 +3,8 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from .models import Affiliation, Workplace
 from .forms import WorkplaceForm
 from django.urls import reverse_lazy
+from django.http import StreamingHttpResponse
+from computer_vision.model import ChairMonitoring
 
 # Create your views here.
 
@@ -19,6 +21,18 @@ class WorkplaceListView(ListView): # class-based views
 class WorkplaceDetailView(DetailView): # class-based views
     model = Workplace
     template_name = 'workplace_detail.html'
+
+def workplaceVideoFeed(request, pk): # function views
+    workplace = Workplace.objects.get(pk=pk)
+
+    workplace_id = pk
+    video_path = workplace.media.path
+    chair_coordinates = workplace.coordinates if workplace.coordinates else []
+
+    monitoring = ChairMonitoring(workplace_id, video_path, chair_coordinates)
+    video_stream = monitoring.monitor_chairs()
+
+    return StreamingHttpResponse(video_stream, content_type='multipart/x-mixed-replace; boundary=frame')
 
 class WorkplaceCreateView(CreateView): # class-based views
     model = Workplace

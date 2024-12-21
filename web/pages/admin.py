@@ -19,9 +19,10 @@ class WorkplaceAdmin(admin.ModelAdmin):
         'affiliation',
         'body',
         'media',
+        'coordinates',
         ]
     fieldsets = (
-        (None, {'fields': ('id', 'name', 'affiliation', 'body', 'media',)}),)
+        (None, {'fields': ('id', 'name', 'affiliation', 'body', 'media', 'coordinates',)}),)
     readonly_fields = ('id',)
 
 admin.site.register(Affiliation, AffiliationAdmin)

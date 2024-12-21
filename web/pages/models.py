@@ -14,6 +14,7 @@ class Workplace(models.Model):
     affiliation = models.ForeignKey('Affiliation', on_delete=models.CASCADE)
     body = models.TextField(max_length=150)
     media = models.FileField(upload_to='')
+    coordinates = models.JSONField(default=list)
 
     def __str__(self):
         return self.name
