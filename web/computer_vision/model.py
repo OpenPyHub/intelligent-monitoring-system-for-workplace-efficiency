@@ -2,6 +2,7 @@ import torch
 import cv2
 import warnings
 import time
+import numpy as np
 
 class ChairMonitoring:
     def __init__(self, workplace_id, video_source, chair_coordinates):
@@ -16,7 +17,7 @@ class ChairMonitoring:
 
         self.cap = cv2.VideoCapture(self.video_source)
         self.frame_id = 0
-        self.EMPTY_WAIT_TIME = 5    # Kişinin kalktıktan sonra bekleme süresi
+        self.EMPTY_WAIT_TIME = 10    # Kişinin kalktıktan sonra bekleme süresi
         self.OCCUPANCY_CONFIRM_TIME = 2    # Sandalyenin dolu olarak kabul edilmesi için gereken süre
 
         # Sandalyelerin durumlarını ve sayaçlarını tutan veri yapıları
@@ -53,10 +54,25 @@ class ChairMonitoring:
             if self.frame_id % 5 != 0:
                 continue
 
+            # 1. Çözünürlük Ayarlama
             frame = cv2.resize(frame, (640, 360))
 
+            # 2. Gri Tonlamaya Dönüştürme
+            gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            
+            # 3. Histogram Eşitleme (Konstrat arttırma) 
+            equalized_frame = cv2.equalizeHist(gray_frame)
+
+            # 4. Gürültü Azaltmak İçin Blur
+            blurred_frame = cv2.bilateralFilter(equalized_frame, 3, 25, 25)
+
+            # 5. Keskinleştirme (Kenar belirginliğini arttırma)
+            kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+            sharpened_frame = cv2.filter2D(blurred_frame, -1, kernel)
+
+
             # YOLO modeline frame gönder
-            results = self.model(frame)
+            results = self.model(sharpened_frame)
 
             # İnsan tespiti
             people = []
@@ -92,14 +108,14 @@ class ChairMonitoring:
                     if idx in self.chair_counters and self.chair_counters[idx]['start_time'] is not None:
                         elapsed_time = time.time() - self.chair_counters[idx]['start_time']
                         if elapsed_time >= self.EMPTY_WAIT_TIME:
-                            self.last_chair_status[idx] = 'Boş (Sure Aşımı)'
+                            self.last_chair_status[idx] = 'Bos (Sure Asimi)'
                             self.chair_counters[idx]['start_time'] = None
 
             # Görüntüyü göster
             for idx, chair in enumerate(self.chair_coordinates, 1):
                 x1, y1, x2, y2 = chair
-                status = self.last_chair_status.get(idx, 'Boş')
-                color = (0, 255, 0) if 'Boş' in status else (0, 0, 255)
+                status = self.last_chair_status.get(idx, 'Bos')
+                color = (0, 255, 0) if 'Bos' in status else (0, 0, 255)
 
                 cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
                 cv2.putText(
@@ -112,11 +128,11 @@ class ChairMonitoring:
                     2,
                 )
 
-                if 'Boş' in status and idx in self.chair_counters and self.chair_counters[idx].get('start_time'):
+                if 'Dolu' in status and idx in self.chair_counters and self.chair_counters[idx].get('start_time'):
                     elapsed_time = time.time() - self.chair_counters[idx]['start_time']
                     cv2.putText(
                         frame,
-                        f"Boş Süre: {elapsed_time:.2f} saniye",
+                        f"Bos Sure: {elapsed_time:.2f} saniye",
                         (x1, y1 - 30),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         0.5,
@@ -127,7 +143,7 @@ class ChairMonitoring:
             for person in people:
                 x1, y1, x2, y2 = person
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
-                cv2.putText(frame, 'Kişi', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+                cv2.putText(frame, 'Kisi', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
             
             # Frame'i JPEG formatında encode et ve tarayıcıya ilet
             ret, buffer = cv2.imencode('.jpg', frame)
